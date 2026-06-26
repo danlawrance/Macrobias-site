@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#0b1220;}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#e6ebf3;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  input{font-family:inherit;}
+  input::placeholder{color:#56627a;}
+  input:focus{outline:none;border-color:#3d63dd!important;box-shadow:0 0 0 3px rgba(61,99,221,0.18);}
+  @keyframes pj-pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  @media(max-width:880px){ .lg-aside{display:none!important;} .lg-card{border-radius:0!important;border:none!important;} }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#0b1220;display:grid;grid-template-columns:1fr 1fr;">
+
+  <!-- LEFT: brand panel -->
+  <div class="lg-aside" style="background:radial-gradient(120% 90% at 20% 10%,#16213c,#0a0e18);border-right:1px solid #18222f;padding:48px 52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;">
+    <a href="Polaris Landing.dc.html" style="display:flex;align-items:center;gap:11px;position:relative;z-index:2;">
+      <div style="width:32px;height:32px;background:#3d63dd;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px -3px rgba(61,99,221,0.5);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><circle cx="20" cy="6" r="2.6" fill="#fff"></circle></svg></div>
+      <span style="font-weight:800;font-size:20px;letter-spacing:-0.02em;color:#fff;">Macrobias</span>
+    </a>
+    <div style="position:relative;z-index:2;">
+      <h2 style="margin:0 0 18px;font-size:32px;font-weight:800;line-height:1.12;letter-spacing:-0.03em;color:#fff;text-wrap:balance;">Time the entry.<br>We'll call the direction.</h2>
+      <div style="display:flex;flex-direction:column;gap:13px;max-width:360px;">
+        <div style="display:flex;gap:11px;align-items:flex-start;"><span style="width:22px;height:22px;border-radius:7px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;">✓</span><span style="font-size:14px;line-height:1.5;color:#c4cdda;">Live fundamental bias on all 28 pairs</span></div>
+        <div style="display:flex;gap:11px;align-items:flex-start;"><span style="width:22px;height:22px;border-radius:7px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;">✓</span><span style="font-size:14px;line-height:1.5;color:#c4cdda;">News tagged bull or bear, instantly</span></div>
+        <div style="display:flex;gap:11px;align-items:flex-start;"><span style="width:22px;height:22px;border-radius:7px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;">✓</span><span style="font-size:14px;line-height:1.5;color:#c4cdda;">The bias panel right on your chart</span></div>
+      </div>
+    </div>
+    <div style="position:relative;z-index:2;font-size:12.5px;color:#56627a;">For educational purposes — not financial advice.</div>
+  </div>
+
+  <!-- RIGHT: auth card -->
+  <div style="display:flex;align-items:center;justify-content:center;padding:40px 30px;">
+    <div class="lg-card" style="width:100%;max-width:392px;background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:32px 32px 30px;box-shadow:0 24px 60px -34px rgba(0,0,0,0.7);">
+
+      <!-- toggle -->
+      <div style="display:flex;background:#0c1626;border:1px solid #1c2840;border-radius:11px;padding:4px;margin-bottom:24px;">
+        <div onClick="{{ showLogin }}" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;padding:9px 0;border-radius:8px;cursor:pointer;background:{{ loginTabBg }};color:{{ loginTabColor }};transition:background .2s ease;">Log in</div>
+        <div onClick="{{ showSignup }}" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;padding:9px 0;border-radius:8px;cursor:pointer;background:{{ signupTabBg }};color:{{ signupTabColor }};transition:background .2s ease;">Sign up</div>
+      </div>
+
+      <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:6px;">{{ heading }}</div>
+      <div style="font-size:13.5px;color:#8b97ab;margin-bottom:24px;">{{ subheading }}</div>
+
+      <!-- name (signup only) -->
+      <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+        <label style="display:block;font-size:12px;font-weight:600;color:#9aa7bd;margin-bottom:7px;">Name</label>
+        <input type="text" placeholder="Your name" style="width:100%;background:#0c1626;border:1px solid #25344f;border-radius:10px;padding:12px 14px;font-size:14px;color:#e6ebf3;margin-bottom:16px;transition:border-color .15s ease,box-shadow .15s ease;">
+      </sc-if>
+
+      <label style="display:block;font-size:12px;font-weight:600;color:#9aa7bd;margin-bottom:7px;">Email</label>
+      <input type="email" placeholder="you@email.com" style="width:100%;background:#0c1626;border:1px solid #25344f;border-radius:10px;padding:12px 14px;font-size:14px;color:#e6ebf3;margin-bottom:16px;transition:border-color .15s ease,box-shadow .15s ease;">
+
+      <label style="display:block;font-size:12px;font-weight:600;color:#9aa7bd;margin-bottom:7px;">Password</label>
+      <input type="password" placeholder="{{ pwPlaceholder }}" style="width:100%;background:#0c1626;border:1px solid #25344f;border-radius:10px;padding:12px 14px;font-size:14px;color:#e6ebf3;margin-bottom:10px;transition:border-color .15s ease,box-shadow .15s ease;">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;min-height:18px;">
+        <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="font-size:12.5px;color:#7d9bff;font-weight:600;">Forgot password?</a>
+        </sc-if>
+        <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:12px;color:#56627a;line-height:1.4;">By signing up you agree to our <a href="Legal.dc.html" style="color:#7d9bff;">Terms</a> &amp; <a href="Legal.dc.html" style="color:#7d9bff;">Privacy</a>.</span>
+        </sc-if>
+      </div>
+
+      <a href="Dashboard.dc.html" style="display:block;text-align:center;background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:14.5px;font-weight:700;padding:13px 0;border-radius:11px;box-shadow:0 10px 24px -6px rgba(61,99,221,0.5),inset 0 1px 0 rgba(255,255,255,0.22);">{{ cta }}</a>
+
+      <div style="display:flex;align-items:center;gap:12px;margin:20px 0;"><span style="flex:1;height:1px;background:#1c2840;"></span><span style="font-size:11.5px;color:#56627a;">or</span><span style="flex:1;height:1px;background:#1c2840;"></span></div>
+
+      <a href="Dashboard.dc.html" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#16223a;border:1px solid #25344f;color:#dbe1eb;font-size:13.5px;font-weight:600;padding:11px 0;border-radius:11px;">
+        <span style="width:16px;height:16px;border-radius:3px;background:#fff;color:#0e1626;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">G</span>
+        Continue with Google
+      </a>
+
+      <div style="text-align:center;font-size:13px;color:#8b97ab;margin-top:22px;">{{ switchPrompt }} <span onClick="{{ toggle }}" style="color:#7d9bff;font-weight:600;cursor:pointer;">{{ switchAction }}</span></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:680}}">
+class Component extends DCLogic {
+  state = { mode: 'login' };
+  renderVals() {
+    const isLogin = this.state.mode === 'login';
+    const ACTIVE = '#1b2942', ACTIVE_T = '#fff', IDLE_T = '#7e8aa0';
+    return {
+      isLogin, isSignup: !isLogin,
+      showLogin: () => this.setState({ mode:'login' }),
+      showSignup: () => this.setState({ mode:'signup' }),
+      toggle: () => this.setState({ mode: isLogin ? 'signup' : 'login' }),
+      loginTabBg: isLogin ? ACTIVE : 'transparent',
+      loginTabColor: isLogin ? ACTIVE_T : IDLE_T,
+      signupTabBg: isLogin ? 'transparent' : ACTIVE,
+      signupTabColor: isLogin ? IDLE_T : ACTIVE_T,
+      heading: isLogin ? 'Welcome back' : 'Create your account',
+      subheading: isLogin ? 'Log in to your Macrobias dashboard.' : 'Start your 7-day free trial — no card required.',
+      pwPlaceholder: isLogin ? 'Your password' : 'Create a password',
+      cta: isLogin ? 'Log in' : 'Create account',
+      switchPrompt: isLogin ? "Don't have an account?" : 'Already have an account?',
+      switchAction: isLogin ? 'Sign up free' : 'Log in'
+    };
+  }
+}
+</script>
+</body>
+</html>

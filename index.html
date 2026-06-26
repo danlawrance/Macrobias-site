@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#0b1220;}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#e6ebf3;background:#0b1220;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::selection{background:#3d63dd;color:#fff;}
+  @keyframes pj-pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  @keyframes pj-marq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes pj-up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pj-rise{from{opacity:0;transform:scaleY(.4);}to{opacity:1;transform:scaleY(1);}}
+  @media(max-width:760px){
+    .ln-nav-links{display:none!important;}
+    .ln-nav{padding:0 18px!important;}
+    .ln-pad{padding-left:18px!important;padding-right:18px!important;}
+    .ln-h1{font-size:38px!important;}
+    .ln-split{grid-template-columns:1fr!important;}
+    .ln-split-r{border-right:none!important;border-top:1px solid #1c2840!important;}
+    .ln-2{grid-template-columns:1fr!important;}
+    .ln-3{grid-template-columns:1fr!important;}
+    .ln-stats{grid-template-columns:repeat(2,1fr)!important;gap:18px 12px!important;}
+    .ln-stats>div{border-left:none!important;}
+    .ln-matrix{grid-template-columns:1fr!important;}
+    .ln-fund > div{grid-row:auto!important;grid-column:auto!important;}
+    .ln-sec{padding-top:54px!important;padding-bottom:54px!important;}
+  }
+</style>
+</helmet>
+
+<div style="width:100%;overflow-x:hidden;background:#0b1220;">
+
+  <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0b1220"/><rect x="30" y="30" width="40" height="40" rx="11" fill="#3d63dd"/><path d="M38 62 L48 48 L54 55 L64 40" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="64" cy="40" r="3.4" fill="#3ec9b0"/></svg></template>
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:50;background:rgba(11,18,32,0.82);backdrop-filter:blur(14px);border-bottom:1px solid #1a2436;">
+    <div class="ln-nav" style="max-width:1200px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <div style="width:30px;height:30px;background:#3d63dd;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px -3px rgba(61,99,221,0.5);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><circle cx="20" cy="6" r="2.6" fill="#fff"></circle></svg></div>
+        <span style="font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#fff;line-height:1;">Macrobias</span>
+      </div>
+      <div class="ln-nav-links" style="display:flex;align-items:center;gap:30px;font-size:14.5px;font-weight:500;color:#9aa7bd;">
+        <span style="cursor:pointer;">How it works</span>
+        <span style="cursor:pointer;">Fundamentals</span>
+        <a href="News Hub.dc.html" style="cursor:pointer;">News</a>
+        <a href="Indicator.dc.html" style="cursor:pointer;">Indicator</a>
+        <a href="Pricing.dc.html" style="cursor:pointer;">Pricing</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a href="Login.dc.html" style="font-size:14.5px;font-weight:600;color:#c4cdda;white-space:nowrap;">Log in</a>
+        <a href="Login.dc.html" style="background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:14.5px;font-weight:600;padding:10px 18px;border-radius:10px;white-space:nowrap;box-shadow:0 8px 20px -6px rgba(61,99,221,0.5),inset 0 1px 0 rgba(255,255,255,0.2);">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- TICKER -->
+  <div style="background:#080d18;border-bottom:1px solid #161f2d;overflow:hidden;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;gap:18px;height:42px;">
+      <div style="display:flex;align-items:center;gap:7px;flex:none;padding-right:16px;border-right:1px solid #1d2738;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#0d9488;animation:pj-pulse 1.6s ease-in-out infinite;"></div>
+        <span style="color:#8b97ab;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Live bias</span>
+      </div>
+      <div style="flex:1;overflow:hidden;">
+        <div style="display:flex;width:max-content;animation:pj-marq 28s linear infinite;">
+          <sc-for list="{{ ticker }}" as="tk" hint-placeholder-count="16">
+            <div style="display:flex;align-items:center;gap:7px;padding:0 18px;font-family:'IBM Plex Mono',monospace;font-size:13px;">
+              {{ tk.flagEl }}
+              <span style="color:#cdd4e0;font-weight:600;">{{ tk.ccy }}</span>
+              <span style="color:{{ tk.color }};font-weight:600;">{{ tk.dir }}</span>
+              <span style="color:#6f7c92;">{{ tk.val }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section style="background:radial-gradient(900px 440px at 50% -120px, rgba(61,99,221,0.22), transparent 64%), #0b1220;border-bottom:1px solid #161f2d;">
+    <div style="max-width:1100px;margin:0 auto;padding:80px 32px 30px;text-align:center;animation:pj-up 0.7s ease both;">
+      <div style="display:inline-flex;align-items:center;gap:9px;background:#111c2e;border:1px solid #25344f;color:#9fb0e8;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;margin-bottom:26px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#6f8be0;box-shadow:0 0 0 3px rgba(111,139,224,0.25);"></span>
+        Fundamental bias for every forex pair
+      </div>
+      <h1 class="ln-h1" style="font-size:60px;line-height:1.02;letter-spacing:-0.045em;font-weight:800;margin:0 0 20px;color:#fff;text-wrap:balance;">Time the entry.<br>We'll call the <span style="color:#7d9bff;">direction.</span></h1>
+      <p style="font-size:19px;line-height:1.55;color:#9aa7bd;margin:0 auto 26px;max-width:560px;text-wrap:pretty;">Your charts tell you <b style="color:#fff;">when</b> to enter — never <b style="color:#fff;">which way</b> to take it. Macrobias reads the fundamentals across all 28 pairs and hands you the other half of the trade: a clear directional bias.</p>
+      <div style="display:inline-flex;align-items:center;gap:14px;font-size:14px;font-weight:700;letter-spacing:0.04em;color:#cdd6e4;">
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:6px;height:6px;border-radius:50%;background:#3ec9b0;"></span>Data</span>
+        <span style="color:#3a475e;">·</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:6px;height:6px;border-radius:50%;background:#7d9bff;"></span>News</span>
+        <span style="color:#3a475e;">·</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:6px;height:6px;border-radius:50%;background:#e0a020;"></span>Fundamentals</span>
+      </div>
+    </div>
+
+    <!-- SPLIT VISUAL -->
+    <div style="max-width:1100px;margin:0 auto;padding:0 32px 30px;animation:pj-up 0.7s ease 0.08s both;">
+      <div class="ln-split" style="background:#0e1830;border:1px solid #1f2c44;border-radius:22px;box-shadow:0 40px 90px -40px rgba(0,0,0,0.7);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative;">
+
+        <!-- LEFT: TIMING -->
+        <div class="ln-split-r" style="padding:30px 34px 32px;border-right:1px solid #1c2840;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7b88a0;">Your technicals</span>
+            <span style="display:flex;align-items:center;gap:6px;">{{ focus.flagSm }}<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7e8aa0;">EUR/USD · 4H</span></span>
+          </div>
+          <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:20px;">You know <span style="color:#7d9bff;">when.</span></div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:152px;padding-bottom:2px;border-bottom:1px dashed #2a3a55;">
+            <sc-for list="{{ candles }}" as="k" hint-placeholder-count="14">
+              <div style="position:relative;flex:1;height:152px;">
+                <div style="position:absolute;left:50%;transform:translateX(-50%);width:2px;top:{{ k.wickTop }};height:{{ k.wickH }};background:{{ k.color }};opacity:0.5;border-radius:2px;"></div>
+                <div style="position:absolute;left:2px;right:2px;top:{{ k.bodyTop }};height:{{ k.bodyH }};background:{{ k.color }};border-radius:2px;transform-origin:bottom;animation:pj-rise 0.5s ease both;"></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;color:#7e8aa0;">
+            <span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:#3ec9b0;"></span>Entry trigger fires</span>
+            <span style="color:#54607a;">— but long or short?</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: DIRECTION -->
+        <div style="padding:30px 34px 32px;background:linear-gradient(180deg,#111d36,#0e1830);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#6f8be0;">Macrobias fundamentals</span>
+            <span style="display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:#0d9488;animation:pj-pulse 1.6s ease-in-out infinite;"></span><span style="font-size:11px;font-weight:600;color:#3ec9b0;">LIVE</span></span>
+          </div>
+          <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:20px;">We tell you <span style="color:#3ec9b0;">which way.</span></div>
+          <div style="display:flex;align-items:center;gap:22px;">
+            <div style="position:relative;width:128px;height:72px;flex:none;overflow:hidden;">
+              <div style="position:absolute;top:0;left:0;width:128px;height:128px;border-radius:50%;background:linear-gradient(90deg,#e5484d,#27344c 50%,#0d9488);"></div>
+              <div style="position:absolute;top:14px;left:14px;width:100px;height:100px;border-radius:50%;background:#0e1830;"></div>
+              <div style="position:absolute;bottom:0;left:50%;width:3px;height:58px;background:#fff;border-radius:3px;transform-origin:bottom center;transform:translateX(-50%) rotate({{ focus.rot }});transition:transform 1s cubic-bezier(.34,1.4,.5,1);"></div>
+              <div style="position:absolute;bottom:-5px;left:50%;width:12px;height:12px;border-radius:50%;background:#fff;transform:translateX(-50%);"></div>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">{{ focus.flagMd }}<span style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#aeb8c8;">{{ focus.pair }}</span></div>
+              <div style="font-size:30px;font-weight:800;letter-spacing:-0.02em;color:{{ focus.color }};">{{ focus.bias }}</div>
+              <div style="font-size:12.5px;color:#7b88a0;margin-top:2px;">Bias score {{ focus.score }} · rate gap + data favour USD</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:22px;">
+            <div style="flex:1;background:#16223a;border:1px solid #25344f;border-radius:9px;padding:9px 11px;"><div style="font-size:10.5px;color:#7b88a0;margin-bottom:2px;">Rates</div><div style="font-size:12.5px;font-weight:700;color:#3ec9b0;">USD ▲</div></div>
+            <div style="flex:1;background:#16223a;border:1px solid #25344f;border-radius:9px;padding:9px 11px;"><div style="font-size:10.5px;color:#7b88a0;margin-bottom:2px;">Data</div><div style="font-size:12.5px;font-weight:700;color:#3ec9b0;">USD ▲</div></div>
+            <div style="flex:1;background:#16223a;border:1px solid #25344f;border-radius:9px;padding:9px 11px;"><div style="font-size:10.5px;color:#7b88a0;margin-bottom:2px;">Sentiment</div><div style="font-size:12.5px;font-weight:700;color:#f4707a;">EUR ▼</div></div>
+          </div>
+        </div>
+
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:#0e1830;border:1px solid #2a3a55;box-shadow:0 8px 24px rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#7d9bff;">+</div>
+      </div>
+
+      <!-- MERGE BAR -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:26px;">
+        <div style="font-size:16px;font-weight:600;color:#9aa7bd;">Timing <span style="color:#54607a;">+</span> Direction <span style="color:#54607a;">=</span> <b style="color:#fff;">conviction.</b></div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <a href="Dashboard.dc.html" style="background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:15px;font-weight:700;padding:13px 26px;border-radius:12px;box-shadow:0 10px 24px -6px rgba(61,99,221,0.5),inset 0 1px 0 rgba(255,255,255,0.22);">Open the dashboard →</a>
+          <span style="font-size:13.5px;color:#7b88a0;">Free · no card required</span>
+        </div>
+      </div>
+    </div>
+    <div style="height:34px;"></div>
+  </section>
+
+  <!-- THE TWO HALVES -->
+  <section style="background:#0d1526;">
+    <div style="max-width:1100px;margin:0 auto;padding:84px 32px;">
+      <div style="text-align:center;max-width:640px;margin:0 auto 46px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">Why most traders stall</div>
+        <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 14px;color:#fff;">Two skills. Most traders have one.</h2>
+        <p style="font-size:17px;line-height:1.55;color:#9aa7bd;margin:0;text-wrap:pretty;">Great timing into the wrong direction still loses. Great direction with bad timing bleeds out. Macrobias closes the gap.</p>
+      </div>
+      <div class="ln-2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:30px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7b88a0;margin-bottom:12px;">The technical trader</div>
+          <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:10px;">Perfect timing, blind direction</div>
+          <p style="font-size:15px;line-height:1.55;color:#9aa7bd;margin:0 0 18px;">You read structure, momentum and levels like a pro — but the chart can't tell you whether the macro wind is at your back or in your face.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#c4cdda;"><span style="width:20px;height:20px;border-radius:6px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;">✓</span>Knows when the entry fires</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#c4cdda;"><span style="width:20px;height:20px;border-radius:6px;background:#2a1518;color:#f4707a;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;">✕</span>Fights the fundamental tide</div>
+          </div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:30px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7b88a0;margin-bottom:12px;">The fundamental trader</div>
+          <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:10px;">Right direction, full-time job</div>
+          <p style="font-size:15px;line-height:1.55;color:#9aa7bd;margin:0 0 18px;">You could track every central bank, print and yield curve yourself — if you had forty spare hours a week and a Bloomberg terminal.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#c4cdda;"><span style="width:20px;height:20px;border-radius:6px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;">✓</span>Knows which way the macro leans</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#c4cdda;"><span style="width:20px;height:20px;border-radius:6px;background:#2a1518;color:#f4707a;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;">✕</span>Drowns in tabs and releases</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;background:linear-gradient(120deg,#16213c,#111c2e);border:1px solid #25344f;border-radius:18px;padding:30px 34px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:10px;">With Macrobias</div>
+          <div style="font-size:24px;font-weight:800;letter-spacing:-0.02em;color:#fff;">Bring your timing. We bring the direction.</div>
+        </div>
+        <a href="Dashboard.dc.html" style="background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:15px;font-weight:700;padding:14px 26px;border-radius:12px;flex:none;box-shadow:0 10px 24px -6px rgba(61,99,221,0.5),inset 0 1px 0 rgba(255,255,255,0.22);">See today's bias →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section style="background:#0b1220;border-top:1px solid #161f2d;border-bottom:1px solid #161f2d;">
+    <div class="ln-stats" style="max-width:1100px;margin:0 auto;padding:30px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+      <div style="text-align:center;"><div style="font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#fff;">28</div><div style="font-size:13px;color:#7e8aa0;margin-top:3px;">Pairs scored live</div></div>
+      <div style="text-align:center;border-left:1px solid #1c2840;"><div style="font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#fff;">6</div><div style="font-size:13px;color:#7e8aa0;margin-top:3px;">Fundamental feeds</div></div>
+      <div style="text-align:center;border-left:1px solid #1c2840;"><div style="font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#fff;">8</div><div style="font-size:13px;color:#7e8aa0;margin-top:3px;">Major currencies</div></div>
+      <div style="text-align:center;border-left:1px solid #1c2840;"><div style="font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#fff;">24<span style="color:#6f8be0;">/</span>5</div><div style="font-size:13px;color:#7e8aa0;margin-top:3px;">Always-on coverage</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background:#0b1220;">
+    <div style="max-width:1200px;margin:0 auto;padding:84px 32px;">
+      <div style="text-align:center;max-width:640px;margin:0 auto 54px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">How Macrobias works</div>
+        <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 14px;color:#fff;">From macro chaos to one clear call.</h2>
+        <p style="font-size:17px;line-height:1.55;color:#9aa7bd;margin:0;text-wrap:pretty;">Three steps between opening Macrobias and placing a trade you actually understand.</p>
+      </div>
+
+      <div class="ln-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;">
+
+        <!-- STEP 1 -->
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:26px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#4d70e6,#3554c8);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;box-shadow:0 6px 16px -4px rgba(61,99,221,0.6);">1</div>
+            <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7b88a0;">Check the bias</div>
+          </div>
+          <div style="font-size:19px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:9px;">See every pair at a glance</div>
+          <p style="font-size:14px;line-height:1.55;color:#9aa7bd;margin:0 0 18px;flex:1;">Open the dashboard to a live heatmap of all 28 pairs — instantly green for bullish, red for bearish, ranked by conviction. No spreadsheets, no terminal.</p>
+          <div style="background:#0d1526;border:1px solid #1c2840;border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+            <sc-for list="{{ miniHeat }}" as="m" hint-placeholder-count="12"><div style="aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:{{ m.bg }};color:{{ m.fg }};">{{ m.label }}</div></sc-for>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:26px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#4d70e6,#3554c8);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;box-shadow:0 6px 16px -4px rgba(61,99,221,0.6);">2</div>
+            <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7b88a0;">Understand the why</div>
+          </div>
+          <div style="font-size:19px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:9px;">Click in for the full reasoning</div>
+          <p style="font-size:14px;line-height:1.55;color:#9aa7bd;margin:0 0 18px;flex:1;">Every score breaks down into six drivers — rates, policy, yields, data, positioning and sentiment — with a confluence checklist showing exactly what backs the call.</p>
+          <div style="background:#0d1526;border:1px solid #1c2840;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:9px;"><div style="width:18px;height:18px;border-radius:6px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex:none;">✓</div><span style="font-size:12px;color:#c4cdda;flex:1;">Rate differential</span><span style="font-size:11px;font-weight:700;color:#3ec9b0;">+14</span></div>
+            <div style="display:flex;align-items:center;gap:9px;"><div style="width:18px;height:18px;border-radius:6px;background:#10261f;color:#3ec9b0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex:none;">✓</div><span style="font-size:12px;color:#c4cdda;flex:1;">Yield spread</span><span style="font-size:11px;font-weight:700;color:#3ec9b0;">+9</span></div>
+            <div style="display:flex;align-items:center;gap:9px;"><div style="width:18px;height:18px;border-radius:6px;background:#2a1518;color:#f4707a;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex:none;">✕</div><span style="font-size:12px;color:#c4cdda;flex:1;">Risk sentiment</span><span style="font-size:11px;font-weight:700;color:#f4707a;">−4</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:18px;padding:26px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#4d70e6,#3554c8);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;box-shadow:0 6px 16px -4px rgba(61,99,221,0.6);">3</div>
+            <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7b88a0;">Pair with your chart</div>
+          </div>
+          <div style="font-size:19px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:9px;">Trade with the wind behind you</div>
+          <p style="font-size:14px;line-height:1.55;color:#9aa7bd;margin:0 0 18px;flex:1;">Take your technical entry only when the fundamentals agree. Macrobias confirms the direction so you stop fighting the macro tide on every trade.</p>
+          <div style="background:#0d1526;border:1px solid #1c2840;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:5px;">{{ focus.flagAlign }}<span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#fff;">{{ focus.pair }}</span></div>
+            <div style="flex:1;display:flex;align-items:center;gap:6px;"><div style="flex:1;height:6px;background:#1c2840;border-radius:4px;overflow:hidden;"><div style="width:64%;height:100%;background:#3ec9b0;"></div></div></div>
+            <span style="font-size:12px;font-weight:700;color:#3ec9b0;display:flex;align-items:center;gap:4px;">Aligned ✓</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNDAMENTALS GRID -->
+  <section style="background:#0b1220;border-top:1px solid #161f2d;border-bottom:1px solid #161f2d;">
+    <div style="max-width:1200px;margin:0 auto;padding:84px 32px;">
+      <div style="max-width:680px;margin:0 0 46px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">The direction engine</div>
+        <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 14px;color:#fff;">Six feeds, one bias.</h2>
+        <p style="font-size:17px;line-height:1.55;color:#9aa7bd;margin:0;text-wrap:pretty;">Every driver that actually moves a currency — rates, data, yields, positioning and sentiment — read continuously and distilled into a single directional call per pair.</p>
+      </div>
+      <div class="ln-3 ln-fund" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;grid-row:span 2;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;"><div style="width:32px;height:32px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;">%</div><div style="font-weight:700;font-size:15.5px;color:#fff;">Rates &amp; CB stance</div></div>
+          <p style="font-size:13px;color:#7e8aa0;line-height:1.5;margin:0 0 16px;">Live policy rate and the next-move lean for every central bank.</p>
+          <div style="display:flex;flex-direction:column;">
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #1c2840;"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#aeb8c8;">Fed</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#fff;">4.50%</span><span style="font-size:10.5px;font-weight:700;color:#8b97ab;background:#1c2840;padding:3px 8px;border-radius:6px;width:48px;text-align:center;">Hold</span></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #1c2840;"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#aeb8c8;">ECB</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#fff;">2.75%</span><span style="font-size:10.5px;font-weight:700;color:#f4707a;background:#2a1518;padding:3px 8px;border-radius:6px;width:48px;text-align:center;">Cut</span></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #1c2840;"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#aeb8c8;">BoE</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#fff;">4.25%</span><span style="font-size:10.5px;font-weight:700;color:#8b97ab;background:#1c2840;padding:3px 8px;border-radius:6px;width:48px;text-align:center;">Hold</span></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 0;"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#aeb8c8;">BoJ</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#fff;">0.50%</span><span style="font-size:10.5px;font-weight:700;color:#3ec9b0;background:#10261f;padding:3px 8px;border-radius:6px;width:48px;text-align:center;">Hike</span></div>
+          </div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;grid-row:span 2;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;"><div style="width:32px;height:32px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;">▦</div><div style="font-weight:700;font-size:15.5px;color:#fff;">Economic calendar</div></div>
+          <p style="font-size:13px;color:#7e8aa0;line-height:1.5;margin:0 0 16px;">High-impact releases, forecast vs prior, and who they favour.</p>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="background:#0d1526;border:1px solid #1c2840;border-radius:10px;padding:11px 12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:#dbe1eb;">USD · CPI</span><span style="font-size:10px;color:#f4707a;font-weight:700;">High</span></div><div style="font-size:11.5px;color:#7e8aa0;">14:30 · f 0.3% · prior 0.2%</div></div>
+            <div style="background:#0d1526;border:1px solid #1c2840;border-radius:10px;padding:11px 12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:#dbe1eb;">USD · NFP</span><span style="font-size:10px;color:#f4707a;font-weight:700;">High</span></div><div style="font-size:11.5px;color:#7e8aa0;">Fri · f 175K · prior 206K</div></div>
+            <div style="background:#0d1526;border:1px solid #1c2840;border-radius:10px;padding:11px 12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:#dbe1eb;">GBP · Jobs</span><span style="font-size:10px;color:#f4707a;font-weight:700;">High</span></div><div style="font-size:11.5px;color:#7e8aa0;">09:00 · f 4.4% · prior 4.4%</div></div>
+          </div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div style="width:32px;height:32px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;">⌁</div><div style="font-weight:700;font-size:15.5px;color:#fff;">Yield differentials</div></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;">
+            <div><div style="font-size:11.5px;color:#7e8aa0;margin-bottom:2px;">US 10Y − DE 10Y</div><div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;letter-spacing:-0.02em;color:#fff;">+1.82<span style="font-size:14px;color:#7e8aa0;">%</span></div><div style="font-size:11.5px;color:#3ec9b0;font-weight:600;margin-top:3px;">▲ widening · USD bid</div></div>
+            <div style="display:flex;align-items:flex-end;gap:4px;height:50px;"><div style="width:7px;height:30%;background:#2a3a55;border-radius:3px;"></div><div style="width:7px;height:46%;background:#2a3a55;border-radius:3px;"></div><div style="width:7px;height:40%;background:#2a3a55;border-radius:3px;"></div><div style="width:7px;height:64%;background:#3d63dd;border-radius:3px;opacity:.6;"></div><div style="width:7px;height:80%;background:#3d63dd;border-radius:3px;opacity:.8;"></div><div style="width:7px;height:100%;background:#4d70e6;border-radius:3px;"></div></div>
+          </div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div style="width:32px;height:32px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;">⚖</div><div style="font-weight:700;font-size:15.5px;color:#fff;">COT positioning</div></div>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;color:#aeb8c8;font-weight:600;">EUR</span><span style="color:#3ec9b0;font-weight:600;">+62% long</span></div><div style="height:7px;background:#1c2840;border-radius:5px;overflow:hidden;"><div style="width:62%;height:100%;background:#0d9488;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;color:#aeb8c8;font-weight:600;">JPY</span><span style="color:#f4707a;font-weight:600;">−71% short</span></div><div style="height:7px;background:#1c2840;border-radius:5px;overflow:hidden;display:flex;justify-content:flex-end;"><div style="width:71%;height:100%;background:#e5484d;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;"><span style="font-family:'IBM Plex Mono',monospace;color:#aeb8c8;font-weight:600;">GBP</span><span style="color:#3ec9b0;font-weight:600;">+38% long</span></div><div style="height:7px;background:#1c2840;border-radius:5px;overflow:hidden;"><div style="width:38%;height:100%;background:#0d9488;"></div></div></div>
+          </div>
+        </div>
+        <div style="grid-column:2;background:linear-gradient(160deg,#16213c,#0e1830);border:1px solid #25344f;border-radius:16px;padding:22px;color:#fff;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;"><div style="width:32px;height:32px;border-radius:9px;background:#1c2840;display:flex;align-items:center;justify-content:center;color:#6f8be0;font-weight:800;">◐</div><div style="font-weight:700;font-size:15.5px;color:#fff;">Risk sentiment</div></div>
+          <div style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:14px;color:#3ec9b0;">Risk-on</div>
+          <div style="height:9px;border-radius:6px;background:linear-gradient(90deg,#e5484d,#e0a020 50%,#0d9488);position:relative;"><div style="position:absolute;top:-3px;left:72%;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid #0e1830;"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#7e8aa0;margin-top:7px;"><span>JPY · CHF</span><span>AUD · NZD</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATRIX PREVIEW -->
+  <section style="background:#0d1526;">
+    <div style="max-width:1200px;margin:0 auto;padding:84px 32px;">
+      <div class="ln-matrix" style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:44px;align-items:center;">
+        <div>
+          <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">Your war room</div>
+          <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 16px;color:#fff;">Every pair, scored and ranked — live.</h2>
+          <p style="font-size:17px;line-height:1.55;color:#9aa7bd;margin:0 0 26px;text-wrap:pretty;">Open the dashboard for the full bias matrix, currency-strength meter, cleanest setups, economic calendar and the live news wire — then click any pair for the confluence behind its score.</p>
+          <a href="Dashboard.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;box-shadow:0 10px 24px -6px rgba(61,99,221,0.5),inset 0 1px 0 rgba(255,255,255,0.22);">Launch the dashboard →</a>
+        </div>
+        <a href="Dashboard.dc.html" style="display:block;background:#111c2e;border:1px solid #1c2840;border-radius:18px;box-shadow:0 24px 60px -34px rgba(0,0,0,0.7);padding:22px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><div style="font-weight:700;font-size:15px;color:#fff;">Bias matrix · base → quote</div><div style="display:flex;align-items:center;gap:6px;background:#10261f;border:1px solid #1c4435;border-radius:999px;padding:5px 10px;"><span style="width:6px;height:6px;border-radius:50%;background:#0d9488;animation:pj-pulse 1.6s ease-in-out infinite;"></span><span style="font-size:11px;font-weight:600;color:#3ec9b0;">LIVE</span></div></div>
+          <div style="display:grid;grid-template-columns:46px repeat(8,1fr);gap:5px;">
+            <div></div>
+            <sc-for list="{{ axis }}" as="h" hint-placeholder-count="8"><div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding-bottom:3px;">{{ h.flagEl }}<span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;color:#7e8aa0;">{{ h.ccy }}</span></div></sc-for>
+            <sc-for list="{{ heatRows }}" as="row" hint-placeholder-count="8">
+              <div style="display:contents;">
+                <div style="display:flex;align-items:center;justify-content:flex-end;gap:5px;padding-right:5px;">{{ row.flagEl }}<span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;color:#7e8aa0;">{{ row.base }}</span></div>
+                <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="8"><div style="aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;background:{{ c.bg }};color:{{ c.fg }};transition:background .9s ease,color .9s ease;">{{ c.label }}</div></sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section style="background:#0b1220;border-top:1px solid #161f2d;">
+    <div style="max-width:1200px;margin:0 auto;padding:84px 32px;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0 0 44px;">
+        <div style="max-width:640px;">
+          <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">News with a verdict</div>
+          <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 14px;color:#fff;">Headlines, already read for you.</h2>
+          <p style="font-size:17px;line-height:1.55;color:#9aa7bd;margin:0;text-wrap:pretty;">Every wire story arrives tagged with the currency it helps, the one it hurts, and how hard — so the news always reinforces the bias on your chart.</p>
+        </div>
+        <a href="News Hub.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#16223a;border:1px solid #25344f;color:#cdd6e4;font-size:14px;font-weight:600;padding:12px 20px;border-radius:11px;white-space:nowrap;">Browse the news hub →</a>
+      </div>
+      <div class="ln-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;border-left:4px solid #0d9488;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="display:inline-flex;align-items:center;gap:6px;background:#10261f;color:#3ec9b0;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;">▲ Bullish USD</span><span style="font-size:12px;color:#6f7c92;">4m ago</span></div>
+          <div style="font-size:16px;font-weight:700;line-height:1.35;color:#fff;margin-bottom:9px;">Fed holds, Powell pushes back on near-term cuts</div>
+          <p style="font-size:13.5px;color:#8b97ab;line-height:1.5;margin:0 0 14px;">Hawkish hold reinforces the rate gap — dollar bid against the low-yielders.</p>
+          <div style="border-top:1px solid #1c2840;padding-top:11px;font-size:12px;color:#6f7c92;">Reuters · EUR/USD, USD/JPY</div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;border-left:4px solid #e5484d;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="display:inline-flex;align-items:center;gap:6px;background:#2a1518;color:#f4707a;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;">▼ Bearish JPY</span><span style="font-size:12px;color:#6f7c92;">22m ago</span></div>
+          <div style="font-size:16px;font-weight:700;line-height:1.35;color:#fff;margin-bottom:9px;">Yen slides to fresh lows as intervention risk builds</div>
+          <p style="font-size:13.5px;color:#8b97ab;line-height:1.5;margin:0 0 14px;">Widening differentials keep JPY heavy — watch the MoF near 160.</p>
+          <div style="border-top:1px solid #1c2840;padding-top:11px;font-size:12px;color:#6f7c92;">Bloomberg · USD/JPY, GBP/JPY</div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:22px;border-left:4px solid #e5484d;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="display:inline-flex;align-items:center;gap:6px;background:#2a1518;color:#f4707a;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px;">▼ Bearish GBP</span><span style="font-size:12px;color:#6f7c92;">1h ago</span></div>
+          <div style="font-size:16px;font-weight:700;line-height:1.35;color:#fff;margin-bottom:9px;">UK CPI cools to 2.1%, opening door for a cut</div>
+          <p style="font-size:13.5px;color:#8b97ab;line-height:1.5;margin:0 0 14px;">Softer inflation trims rate expectations — pound offered across the board.</p>
+          <div style="border-top:1px solid #1c2840;padding-top:11px;font-size:12px;color:#6f7c92;">ONS · GBP/USD, EUR/GBP</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="background:#0d1526;border-top:1px solid #161f2d;">
+    <div style="max-width:1200px;margin:0 auto;padding:84px 32px;">
+      <div style="text-align:center;max-width:640px;margin:0 auto 48px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6f8be0;margin-bottom:14px;">Traders who stopped guessing</div>
+        <h2 style="font-size:38px;line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin:0 0 14px;color:#fff;">The direction you were missing.</h2>
+      </div>
+      <div class="ln-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:26px;">
+          <div style="font-size:13px;color:#3ec9b0;letter-spacing:0.1em;margin-bottom:14px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.6;color:#dbe1eb;margin:0 0 20px;">"I had the entries down for years but kept shorting into bullish fundamentals. Macrobias is the filter I didn't know I needed — my win rate jumped the month I started using it."</p>
+          <div style="display:flex;align-items:center;gap:11px;"><div style="width:38px;height:38px;border-radius:50%;background:#1c2840;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-size:13px;font-weight:700;">MR</div><div><div style="font-size:13.5px;font-weight:700;color:#fff;">Marcus R.</div><div style="font-size:12px;color:#7e8aa0;">Swing trader · 6 yrs</div></div></div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:26px;">
+          <div style="font-size:13px;color:#3ec9b0;letter-spacing:0.1em;margin-bottom:14px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.6;color:#dbe1eb;margin:0 0 20px;">"The confluence checklist alone is worth it. I can see in five seconds whether rates, yields and positioning all agree before I commit. No more 12 browser tabs."</p>
+          <div style="display:flex;align-items:center;gap:11px;"><div style="width:38px;height:38px;border-radius:50%;background:#1c2840;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-size:13px;font-weight:700;">SL</div><div><div style="font-size:13.5px;font-weight:700;color:#fff;">Sofia L.</div><div style="font-size:12px;color:#7e8aa0;">Day trader · 3 yrs</div></div></div>
+        </div>
+        <div style="background:#111c2e;border:1px solid #1c2840;border-radius:16px;padding:26px;">
+          <div style="font-size:13px;color:#3ec9b0;letter-spacing:0.1em;margin-bottom:14px;">★★★★★</div>
+          <p style="font-size:15px;line-height:1.6;color:#dbe1eb;margin:0 0 20px;">"Finally a fundamentals tool that doesn't assume an economics degree. It tells me which way and why, in plain English. It's become the first tab I open every morning."</p>
+          <div style="display:flex;align-items:center;gap:11px;"><div style="width:38px;height:38px;border-radius:50%;background:#1c2840;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-size:13px;font-weight:700;">DK</div><div><div style="font-size:13.5px;font-weight:700;color:#fff;">David K.</div><div style="font-size:12px;color:#7e8aa0;">Prop trader · 9 yrs</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background:#0b1220;">
+    <div style="max-width:1200px;margin:0 auto;padding:30px 32px 96px;">
+      <div style="background:radial-gradient(700px 320px at 80% -40px, rgba(61,99,221,0.28), transparent 62%), #0e1830;border:1px solid #25344f;border-radius:26px;padding:60px 56px;position:relative;overflow:hidden;">
+        <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+          <div style="max-width:560px;">
+            <h2 style="font-size:40px;line-height:1.08;letter-spacing:-0.03em;font-weight:800;margin:0 0 16px;color:#fff;text-wrap:balance;">Bring your timing.<br>We'll bring the direction.</h2>
+            <p style="font-size:17px;line-height:1.55;color:#9aa6ba;margin:0;max-width:460px;text-wrap:pretty;">Get the fundamental bias for every pair the moment you open your chart. Free to start, no card required.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="Dashboard.dc.html" style="background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:16px;font-weight:700;padding:16px 32px;border-radius:13px;text-align:center;box-shadow:0 12px 30px -6px rgba(61,99,221,0.55),inset 0 1px 0 rgba(255,255,255,0.22);">Launch dashboard →</a>
+            <span style="color:#7b88a0;font-size:13px;text-align:center;">No card · cancel anytime</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#080d18;border-top:1px solid #161f2d;">
+    <div style="max-width:1200px;margin:0 auto;padding:48px 32px 40px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+        <div style="max-width:300px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;"><div style="width:28px;height:28px;background:#3d63dd;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px -3px rgba(61,99,221,0.5);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><circle cx="20" cy="6" r="2.6" fill="#fff"></circle></svg></div><span style="font-weight:800;font-size:18px;color:#fff;">Macrobias</span></div>
+          <p style="font-size:13.5px;color:#7e8aa0;line-height:1.55;margin:0;">The other half of every trade. Fundamental direction for all 28 major forex pairs.</p>
+        </div>
+        <div style="display:flex;gap:60px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:11px;"><span style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6f7c92;margin-bottom:3px;">Product</span><a href="Dashboard.dc.html" style="font-size:14px;color:#aeb8c8;">Dashboard</a><span style="font-size:14px;color:#aeb8c8;cursor:pointer;">Bias matrix</span><a href="News Hub.dc.html" style="font-size:14px;color:#aeb8c8;">News feed</a></div>
+          <div style="display:flex;flex-direction:column;gap:11px;"><span style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6f7c92;margin-bottom:3px;">Company</span><span style="font-size:14px;color:#aeb8c8;cursor:pointer;">About</span><a href="Methodology.dc.html" style="font-size:14px;color:#aeb8c8;">Methodology</a><a href="Pricing.dc.html" style="font-size:14px;color:#aeb8c8;">Pricing</a><a href="Legal.dc.html" style="font-size:14px;color:#aeb8c8;">Legal &amp; risk</a></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:40px;padding-top:24px;border-top:1px solid #1c2840;flex-wrap:wrap;"><span style="font-size:12.5px;color:#6f7c92;">© 2026 Macrobias. For educational purposes — not financial advice.</span><span style="font-size:12.5px;color:#6f7c92;">Data shown is illustrative.</span></div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1100}}">
+class Component extends DCLogic {
+  state = { strengths: { USD:63, EUR:47, GBP:56, JPY:33, AUD:59, CAD:51, CHF:43, NZD:54 }, biasFeed: null };
+
+  componentDidMount() {
+    this._iv = setInterval(() => {
+      this.setState(s => {
+        const ns = { ...s.strengths };
+        for (const k in ns) { let v = ns[k] + (Math.random()-0.5)*7; ns[k] = Math.max(10, Math.min(94, v)); }
+        return { strengths: ns };
+      });
+    }, 2400);
+    this.loadBiasFeed(); this._bias = setInterval(()=>this.loadBiasFeed(), 60000);
+  }
+  componentWillUnmount() { clearInterval(this._iv); clearInterval(this._bias); }
+  async loadBiasFeed(){
+    try {
+      const r = await fetch('https://macrobias-collectors.onrender.com/bias-feed.json?t='+Date.now(), { cache:'no-store' });
+      if(!r.ok) return;
+      const j = await r.json();
+      if(j && j.currencies) this.setState({ biasFeed:j });
+    } catch(e){ /* keep simulated fallback */ }
+  }
+
+  renderVals() {
+    const order = ['USD','EUR','GBP','JPY','AUD','CAD','CHF','NZD'];
+    // Live strength from bias-feed.json when present, else the simulated meter.
+    const lc = (this.state.biasFeed && this.state.biasFeed.currencies) ? this.state.biasFeed.currencies : null;
+    const st = {};
+    order.forEach(c=>{ const L=lc&&lc[c]; st[c]=(L&&typeof L.strength==='number')?L.strength:this.state.strengths[c]; });
+    const flagCode = { USD:'us', EUR:'eu', GBP:'gb', JPY:'jp', AUD:'au', CAD:'ca', CHF:'ch', NZD:'nz' };
+    const flagUrl = c => `https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/${flagCode[c]}.svg`;
+    // Build flags as React elements (not <img src="{{hole}}">) so no literal-URL request fires during streaming paint.
+    const fImg = (c,w,h,sh) => React.createElement('img',{src:flagUrl(c),style:{width:w+'px',height:h+'px',borderRadius:'2px',objectFit:'cover',display:'block',boxShadow:sh?('0 0 0 1px rgba(255,255,255,'+sh+')'):undefined}});
+    const fPair = (b,q,w,h,sh) => React.createElement('span',{style:{display:'inline-flex',gap:'2px'}}, fImg(b,w,h,sh), fImg(q,w,h,sh));
+
+    const axis = order.map(c => ({ ccy:c, flagEl:fImg(c,16,11,'0.12') }));
+
+    const mix=(a,b,t)=>Math.round(a+(b-a)*t);
+    const blend=(base,score,lo)=>{const m=Math.min(1,Math.abs(score)/50);const tgt=score>=0?[13,148,136]:[229,72,77];const t=lo+m*(1-lo);return `rgb(${mix(base[0],tgt[0],t)},${mix(base[1],tgt[1],t)},${mix(base[2],tgt[2],t)})`;};
+    const heatRows = order.map(base => ({ base, flagEl:fImg(base,16,11,'0.12'), cells: order.map(quote => {
+      if (base===quote) return { key:base+quote, bg:'#1a263a', fg:'#56627a', label:'–' };
+      const score=st[base]-st[quote]; const m=Math.min(1,Math.abs(score)/50);
+      return { key:base+quote, label:(score>=0?'+':'')+Math.round(score), bg:blend([26,38,58],score,0.20), fg:m>0.30?'#ffffff':'#aeb8c8' };
+    }) }));
+
+    const fs = st.EUR - st.USD;
+    const focus = { pair:'EUR/USD', flagSm:fPair('EUR','USD',16,11,null), flagMd:fPair('EUR','USD',20,14,'0.14'), flagAlign:fPair('EUR','USD',18,13,null), score:(fs>=0?'+':'')+Math.round(fs), bias: fs>=8?'Bullish':fs<=-8?'Bearish':'Neutral', color: fs>=8?'#3ec9b0':fs<=-8?'#f4707a':'#aeb8c8', rot:(Math.max(-1,Math.min(1,fs/50))*82).toFixed(1)+'deg' };
+
+    const closes=[46,58,51,64,59,73,67,79,74,86,80,92,97,104];
+    const pMin=34, pMax=116, H=140, pad=8;
+    const y = p => pad + (H - (p-pMin)/(pMax-pMin)*H);
+    const candles = closes.map((c,i) => {
+      const o = i===0 ? c-8 : closes[i-1];
+      const up = c>=o;
+      const top = y(Math.max(o,c)), bot = y(Math.min(o,c));
+      const bodyH = Math.max(3, bot-top);
+      return { key:i, color: up?'#3ec9b0':'#f4707a', bodyTop:top.toFixed(1)+'px', bodyH:bodyH.toFixed(1)+'px', wickTop:(top-7).toFixed(1)+'px', wickH:(bodyH+14).toFixed(1)+'px' };
+    });
+
+    const dirArrow = v => v>=55?'▲':v<=45?'▼':'■';
+    const tcol = v => v>=55?'#3ec9b0':v<=45?'#f4707a':'#8b97ab';
+    const ti = order.map(c => ({ key:c, ccy:c, flagEl:fImg(c,17,12,'0.12'), val:Math.round(st[c]), dir:dirArrow(st[c]), color:tcol(st[c]) }));
+    const ticker = ti.concat(ti.map(x=>({ ...x, key:x.key+'_2' })));
+
+    // mini heatmap for the "how it works" step 1 visual (first 3 base rows × 4 quotes)
+    const miniHeat = [];
+    ['USD','EUR','GBP'].forEach(b => ['EUR','JPY','AUD','CAD'].forEach(q => {
+      if (b===q) { miniHeat.push({ key:b+q, bg:'#1a263a', fg:'#56627a', label:'–' }); return; }
+      const score=st[b]-st[q]; const m=Math.min(1,Math.abs(score)/50);
+      miniHeat.push({ key:b+q, label:(score>=0?'+':'')+Math.round(score), bg:blend([26,38,58],score,0.20), fg:m>0.30?'#ffffff':'#aeb8c8' });
+    }));
+
+    return { axis, heatRows, focus, candles, ticker, miniHeat };
+  }
+}
+</script>
+</body>
+</html>
