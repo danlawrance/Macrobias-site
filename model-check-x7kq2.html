@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Macrobias · Model accuracy (private)</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0a1120;color:#e6ebf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding:28px 16px 60px;display:flex;flex-direction:column;align-items:center}
+  .wrap{width:100%;max-width:640px}
+  h1{font-size:19px;font-weight:700;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .logo{width:27px;height:27px;border-radius:8px;background:#3d63dd;display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .sub{font-size:13px;color:#8b97ab;margin:0 0 22px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+  .card{background:#0f1830;border:1px solid #21304c;border-radius:14px;padding:14px 16px}
+  .k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6f7c92;margin-bottom:6px}
+  .v{font-size:26px;font-weight:700;font-family:ui-monospace,Menlo,monospace}
+  .v small{font-size:13px;color:#8b97ab;font-weight:500}
+  h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6f7c92;margin:26px 0 10px}
+  table{width:100%;border-collapse:collapse;background:#0f1830;border:1px solid #21304c;border-radius:14px;overflow:hidden}
+  th,td{font-size:13px;text-align:left;padding:9px 13px;border-bottom:1px solid #1a2740}
+  th{color:#6f7c92;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  tr:last-child td{border-bottom:none}
+  td.mono{font-family:ui-monospace,Menlo,monospace}
+  .good{color:#3ec9b0}.bad{color:#f4707a}.mid{color:#e0b64f}
+  .note{font-size:12.5px;color:#8b97ab;line-height:1.6;background:#0f1830;border:1px solid #21304c;border-radius:14px;padding:13px 15px;margin-top:24px}
+  #state{font-size:14px;color:#9aa7bd;background:#0f1830;border:1px solid #21304c;border-radius:14px;padding:18px;text-align:center;line-height:1.6}
+</style></head><body>
+<div class="wrap">
+  <h1><span class="logo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="6" r="2.6" fill="#fff"/></svg></span>Model accuracy</h1>
+  <p class="sub">Private tracker · did the fundamental bias match the following week's price direction? Neutral calls excluded.</p>
+  <div id="state">Loading…</div>
+  <div id="content" style="display:none">
+    <div class="cards">
+      <div class="card"><div class="k">Overall hit rate</div><div class="v" id="rate">–</div></div>
+      <div class="card"><div class="k">Calls scored</div><div class="v" id="calls">–</div></div>
+      <div class="card"><div class="k">Weeks evaluated</div><div class="v" id="weeks">–</div></div>
+    </div>
+    <h2>By pair</h2>
+    <table><thead><tr><th>Pair</th><th>Calls</th><th>Hits</th><th>Hit rate</th></tr></thead><tbody id="pairs"></tbody></table>
+    <h2>By week</h2>
+    <table><thead><tr><th>Snapshot</th><th>Calls</th><th>Hits</th><th>Hit rate</th></tr></thead><tbody id="hist"></tbody></table>
+  </div>
+  <div class="note"><b>Reading this honestly:</b> a week's direction match is a sanity check, not proof of a tradeable edge. Below ~8–10 weeks of data the percentages are noise. Anything consistently ≥55% over months is interesting; ~50% means the model isn't adding directional information. Rates are placeholder-affected until the policy-rate table is fixed.</div>
+</div>
+<script>
+var URL_ = "https://macrobias-collectors.onrender.com/accuracy.json";
+function cls(r){ return r>=55 ? "good" : r>=48 ? "mid" : "bad"; }
+fetch(URL_, {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(d){
+  var st = document.getElementById('state');
+  if(!d || !d.weeksEvaluated){
+    var next = d && d.nextEvaluation ? new Date(d.nextEvaluation).toLocaleDateString() : "about a week after deploy";
+    st.innerHTML = "No results yet — the tracker needs a full week between snapshot and evaluation.<br>Snapshots pending: <b>" + (d ? d.pendingSnapshots : "?") + "</b> · first result expected: <b>" + next + "</b>";
+    return;
+  }
+  st.style.display = "none"; document.getElementById('content').style.display = "block";
+  var o = d.overall;
+  var rateEl = document.getElementById('rate');
+  rateEl.textContent = o.rate + "%"; rateEl.className = "v " + cls(o.rate);
+  document.getElementById('calls').innerHTML = o.hits + " <small>hits</small> / " + o.calls;
+  document.getElementById('weeks').textContent = d.weeksEvaluated;
+  var rows = Object.entries(d.perPair).sort(function(a,b){ return b[1].rate - a[1].rate; });
+  document.getElementById('pairs').innerHTML = rows.map(function(e){
+    return "<tr><td class='mono'>"+e[0]+"</td><td class='mono'>"+e[1].calls+"</td><td class='mono'>"+e[1].hits+"</td><td class='mono "+cls(e[1].rate)+"'>"+e[1].rate+"%</td></tr>";
+  }).join("");
+  document.getElementById('hist').innerHTML = d.history.slice().reverse().map(function(h){
+    return "<tr><td class='mono'>"+new Date(h.date).toLocaleDateString()+"</td><td class='mono'>"+h.calls+"</td><td class='mono'>"+h.hits+"</td><td class='mono "+cls(h.rate)+"'>"+h.rate+"%</td></tr>";
+  }).join("");
+}).catch(function(){
+  document.getElementById('state').textContent = "Couldn't reach the tracker feed — the Render service may be waking up. Refresh in ~30 seconds.";
+});
+</script>
+</body></html>
