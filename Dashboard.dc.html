@@ -924,7 +924,7 @@ class Component extends DCLogic {
     const blend=(base,score,lo)=>{const m=Math.min(1,Math.abs(score)/50);const tgt=score>=0?[13,148,136]:[229,72,77];const t=lo+m*(1-lo);return `rgb(${mix(base[0],tgt[0],t)},${mix(base[1],tgt[1],t)},${mix(base[2],tgt[2],t)})`;};
     const heatRows = order.map(base => ({ base, cells: order.map(quote => {
       if (base===quote) return { key:base+quote, bgDark:'#1a263a', fgDark:'#56627a', label:'–', cursor:'default', onClick:undefined };
-      const score=computePair(base,quote).score;
+      const score=computePair(base,quote).score; const m=Math.min(1,Math.abs(score)/50);
       return { key:base+quote, label:(score>=0?'+':'')+Math.round(score), bgDark:blend([26,38,58],score,0.20), fgDark:m>0.30?'#ffffff':'#aeb8c8', cursor:'pointer', onClick:()=>select(base+'/'+quote) };
     }) }));
 
