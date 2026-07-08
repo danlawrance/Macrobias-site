@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Macrobias · Chart Check</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0a1120;color:#e6ebf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 16px 60px}
+  nav{width:100%;max-width:960px;display:flex;align-items:center;gap:10px;padding:18px 0 26px}
+  .logo{width:27px;height:27px;border-radius:8px;background:#3d63dd;display:flex;align-items:center;justify-content:center;flex:none}
+  nav b{font-size:15px;font-weight:600}
+  nav a{margin-left:auto;font-size:13px;color:#7d9bff;text-decoration:none}
+  .wrap{width:100%;max-width:560px;text-align:center}
+  h1{font-size:24px;margin:6px 0 8px}
+  .sub{font-size:14px;color:#8b97ab;line-height:1.6;margin:0 0 26px}
+  .drop{border:1.5px dashed #2c3b58;border-radius:16px;background:#0f1830;padding:34px 20px;cursor:pointer;transition:border-color .15s}
+  .drop:hover{border-color:#3d63dd}
+  .drop b{font-size:15px}
+  .drop span{display:block;font-size:12px;color:#8b97ab;margin-top:6px}
+  #preview{max-width:100%;border-radius:12px;border:1px solid #21304c;margin-top:16px;display:none}
+  button.go{margin-top:16px;width:100%;background:linear-gradient(180deg,#4d70e6,#3554c8);color:#fff;font-size:15px;font-weight:700;padding:14px 0;border:none;border-radius:12px;cursor:pointer;box-shadow:0 10px 24px -6px rgba(61,99,221,.5)}
+  button.go:disabled{opacity:.45;cursor:default}
+  #status{font-size:13px;color:#9aa7bd;margin-top:12px;min-height:18px}
+  .result{display:none;text-align:left;background:#0f1830;border:1px solid #21304c;border-radius:16px;padding:18px;margin-top:20px}
+  .verdict{font-size:21px;font-weight:800;letter-spacing:.05em}
+  .row{font-size:13.5px;color:#c3cddc;margin-top:10px;line-height:1.55}
+  .row b{color:#fff}
+  .disc{font-size:11px;color:#56627a;margin-top:22px;line-height:1.6}
+</style></head><body>
+<nav><span class="logo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="6" r="2.6" fill="#fff"/></svg></span><b>Macrobias</b><a href="Dashboard.dc.html">← Dashboard</a></nav>
+<div class="wrap">
+  <h1>Chart Check</h1>
+  <p class="sub">Upload a screenshot of your chart. Macrobias reads the technicals, compares them against today's live fundamental scores, and tells you whether you have <b style="color:#3ec9b0">confluence</b> or <b style="color:#f4707a">conflict</b>.</p>
+  <div class="drop" id="drop"><b>Tap to choose a chart screenshot</b><span>PNG or JPG · your TradingView chart works perfectly</span></div>
+  <input type="file" id="file" accept="image/png,image/jpeg,image/webp" style="display:none">
+  <img id="preview" alt="chart preview">
+  <button class="go" id="go" disabled>Check my chart</button>
+  <div id="status"></div>
+  <div class="result" id="result">
+    <div class="verdict" id="rv"></div>
+    <div class="row" id="rp"></div>
+    <div class="row" id="rt"></div>
+    <div class="row" id="rf"></div>
+    <div class="row" id="rn"></div>
+  </div>
+  <div class="disc">This is automated analysis for educational purposes — not financial advice, not a recommendation to trade. AI chart reading is an opinion and can be wrong. Always do your own research.</div>
+</div>
+<script>
+var API = "https://macrobias-collectors.onrender.com/analyze-chart";
+var TEAL="#3ec9b0", CORAL="#f4707a", GREY="#8b97ab";
+var b64=null, mt=null;
+var drop=document.getElementById('drop'), file=document.getElementById('file'),
+    prev=document.getElementById('preview'), go=document.getElementById('go'),
+    st=document.getElementById('status'), result=document.getElementById('result');
+drop.onclick=function(){ file.click(); };
+file.onchange=function(){
+  var f=file.files[0]; if(!f) return;
+  mt=f.type;
+  var r=new FileReader();
+  r.onload=function(){ b64=r.result.split(',')[1]; prev.src=r.result; prev.style.display='block'; go.disabled=false; result.style.display='none'; st.textContent=''; };
+  r.readAsDataURL(f);
+};
+go.onclick=function(){
+  if(!b64) return;
+  go.disabled=true; st.textContent='Reading your chart against live fundamentals… (10–20s)'; result.style.display='none';
+  fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({image:b64,mediaType:mt})})
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+    .then(function(o){
+      go.disabled=false;
+      if(!o.ok || o.j.error){ st.textContent = o.j.error || 'Something went wrong — try again.'; return; }
+      st.textContent='';
+      var d=o.j, col = d.verdict==='CONFLUENCE'?TEAL : d.verdict==='CONFLICT'?CORAL : GREY;
+      document.getElementById('rv').textContent = d.verdict==='CONFLUENCE'?'\u2713 CONFLUENCE' : d.verdict==='CONFLICT'?'\u2715 CONFLICT' : '~ UNCLEAR';
+      document.getElementById('rv').style.color = col;
+      document.getElementById('rp').innerHTML = d.pair ? '<b>Pair:</b> '+d.pair : '<b>Pair:</b> not identified — include the symbol in your screenshot for best results';
+      document.getElementById('rt').innerHTML = '<b>Technical read:</b> '+(d.technicalRead||'—')+ (d.technicalBias&&d.technicalBias!=='unclear' ? ' <b>('+d.technicalBias+')</b>' : '');
+      document.getElementById('rf').innerHTML = '<b>Fundamentals:</b> '+(d.fundamentalBias||'—')+(typeof d.fundamentalScore==='number' ? ' ('+(d.fundamentalScore>0?'+':'')+d.fundamentalScore+' / 66)' : '');
+      document.getElementById('rn').innerHTML = d.notes ? '<b>Notes:</b> '+d.notes : '';
+      result.style.display='block';
+    })
+    .catch(function(){ go.disabled=false; st.textContent='Network error — the analysis server may be waking up. Try again in 30s.'; });
+};
+</script>
+</body></html>
