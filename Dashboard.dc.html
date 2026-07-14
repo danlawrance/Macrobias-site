@@ -57,6 +57,7 @@
         <a href="Methodology.dc.html" style="color:#6f7c92;cursor:pointer;">Methodology</a>
         <a href="Indicator.dc.html" style="color:#6f7c92;cursor:pointer;">Indicator</a>
         <a href="News Hub.dc.html" style="color:#6f7c92;cursor:pointer;">News</a>
+        <a href="Chart Check.dc.html" style="color:#6f7c92;cursor:pointer;">Chart Check</a>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:14px;">
@@ -760,7 +761,7 @@ class Component extends DCLogic {
       NZD:{text:'NZ jobs beat lifts the kiwi',tag:'NZD ▲',up:true,meta:'Stats NZ'}
     };
 
-    const shortLabel = { rate:'the rate gap', policy:'central-bank policy', yield:'the yield spread', data:'recent data', cot:'positioning', risk:'risk sentiment' };
+    const shortLabel = { rate:'the rate gap', policy:'central-bank policy', yield:'the yield spread', data:'recent data', cot:'positioning', risk:'risk sentiment', news:'recent news flow' };
 
     // ---- news feed (illustrative; wire to a real RSS/news API later) ----
     // [ccy, dir(up/down/flat), impact, source, minutesAgo, title, blurb]
@@ -801,6 +802,15 @@ class Component extends DCLogic {
       mins: o.publishedAt ? Math.max(0, Math.round((Date.now()-Date.parse(o.publishedAt))/60000)) : (o.mins||0) })) : null;
     const storySrc = (liveStories && liveStories.length) ? liveStories : baseStories;
     const allNews = storySrc.map(mkStory).sort((a,b)=>a.mins-b.mins);
+    // News-flow factor (must match score-bot): 48h window, High=3/Med=1.5/Low=0.5,
+    // signed by dir, 18h half-life decay, /6, clamped to [-1,1].
+    const NS = {}; order.forEach(c=>NS[c]=0);
+    storySrc.forEach(s2=>{ if(!(s2.ccy in NS)) return; const ageH=(s2.mins||0)/60; if(ageH>48) return;
+      const w = s2.impact==='High'?3 : s2.impact==='Medium'?1.5 : 0.5;
+      const sgn = s2.dir==='up'?1 : s2.dir==='down'?-1 : 0;
+      NS[s2.ccy] += sgn*w*Math.pow(0.5, ageH/18); });
+    order.forEach(c=>NS[c]=clamp(NS[c]/6));
+    const nsWord = v => v>0.15?'supportive' : v<-0.15?'negative' : 'quiet';
 
     // ---- deterministic history + sparkline helpers ----
     const hash=str=>{let h=0;for(let i=0;i<str.length;i++){h=(h*31+str.charCodeAt(i))|0;}return Math.abs(h)||1;};
@@ -846,12 +856,13 @@ class Component extends DCLogic {
     function computePair(b,q){
       const B=fund[b], Q=fund[q];
       const defs=[
-        { key:'rate',   label:'Rate differential',   weight:14, raw:B.rate-Q.rate,            scale:3,  detail:`${b} ${B.rate.toFixed(2)}% vs ${q} ${Q.rate.toFixed(2)}%` },
-        { key:'policy', label:'CB trajectory',       weight:12, raw:B.lean-Q.lean,            scale:2,  detail:`${leanWord(B.lean)} ${b} vs ${leanWord(Q.lean)} ${q}` },
-        { key:'yield',  label:'10Y yield spread',    weight:11, raw:B.yield-Q.yield,          scale:3,  detail:`${b} ${B.yield.toFixed(2)}% vs ${q} ${Q.yield.toFixed(2)}%` },
-        { key:'data',   label:'Data momentum',       weight:12, raw:(st[b]-st[q]),            scale:30, detail:`${b} ${st[b]>=st[q]?'outpacing':'lagging'} ${q} on recent prints` },
-        { key:'cot',    label:'COT positioning',     weight:8,  raw:B.cot-Q.cot,              scale:60, detail:`${b} net ${B.cot>0?'+':''}${B.cot}% vs ${q} ${Q.cot>0?'+':''}${Q.cot}%` },
-        { key:'risk',   label:'Risk sentiment',      weight:9,  raw:(B.risk-Q.risk)*REGIME,   scale:2,  detail:`Risk-${REGIME>0?'on':'off'} regime ${(B.risk-Q.risk)===0?'is neutral here':'favours '+((B.risk-Q.risk)*REGIME>0?b:q)}` }
+        { key:'rate',   label:'Rate differential',   weight:13, raw:B.rate-Q.rate,            scale:3,  detail:`${b} ${B.rate.toFixed(2)}% vs ${q} ${Q.rate.toFixed(2)}%` },
+        { key:'policy', label:'CB trajectory',       weight:11, raw:B.lean-Q.lean,            scale:2,  detail:`${leanWord(B.lean)} ${b} vs ${leanWord(Q.lean)} ${q}` },
+        { key:'yield',  label:'10Y yield spread',    weight:10, raw:B.yield-Q.yield,          scale:3,  detail:`${b} ${B.yield.toFixed(2)}% vs ${q} ${Q.yield.toFixed(2)}%` },
+        { key:'data',   label:'Data momentum',       weight:10, raw:(st[b]-st[q]),            scale:30, detail:`${b} ${st[b]>=st[q]?'outpacing':'lagging'} ${q} on recent prints` },
+        { key:'cot',    label:'COT positioning',     weight:7,  raw:B.cot-Q.cot,              scale:60, detail:`${b} net ${B.cot>0?'+':''}${B.cot}% vs ${q} ${Q.cot>0?'+':''}${Q.cot}%` },
+        { key:'risk',   label:'Risk sentiment',      weight:8,  raw:(B.risk-Q.risk)*REGIME,   scale:2,  detail:`Risk-${REGIME>0?'on':'off'} regime ${(B.risk-Q.risk)===0?'is neutral here':'favours '+((B.risk-Q.risk)*REGIME>0?b:q)}` },
+        { key:'news',   label:'News flow (48h)',     weight:7,  raw:NS[b]-NS[q],              scale:2,  detail:`${b} flow ${nsWord(NS[b])} vs ${q} ${nsWord(NS[q])}` }
       ];
       let total=0, absAll=0, absAligned=0;
       const contribs = defs.map(d=>{ const c=d.weight*clamp(d.raw/d.scale); total+=c; return {...d, c}; });
@@ -923,7 +934,7 @@ class Component extends DCLogic {
     const mix=(a,b,t)=>Math.round(a+(b-a)*t);
     const blend=(base,score,lo)=>{const m=Math.min(1,Math.abs(score)/50);const tgt=score>=0?[13,148,136]:[229,72,77];const t=lo+m*(1-lo);return `rgb(${mix(base[0],tgt[0],t)},${mix(base[1],tgt[1],t)},${mix(base[2],tgt[2],t)})`;};
     const heatRows = order.map(base => ({ base, cells: order.map(quote => {
-      if (base===quote) return { key:base+quote, bgDark:'#1a263a', fgDark:'#56627a', label:'–', cursor:'default', onClick:undefined };
+      if (base===quote) return { key:base+quote, bgDark:'transparent', fgDark:'transparent', label:'', cursor:'default', onClick:undefined };
       const score=computePair(base,quote).score; const m=Math.min(1,Math.abs(score)/50);
       return { key:base+quote, label:(score>=0?'+':'')+Math.round(score), bgDark:blend([26,38,58],score,0.20), fgDark:m>0.30?'#ffffff':'#aeb8c8', cursor:'pointer', onClick:()=>select(base+'/'+quote) };
     }) }));

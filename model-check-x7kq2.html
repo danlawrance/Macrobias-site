@@ -33,13 +33,17 @@
       <div class="card"><div class="k">Overall hit rate</div><div class="v" id="rate">–</div></div>
       <div class="card"><div class="k">Calls scored</div><div class="v" id="calls">–</div></div>
       <div class="card"><div class="k">Weeks evaluated</div><div class="v" id="weeks">–</div></div>
+      <div class="card"><div class="k">Pips captured</div><div class="v" id="pips">–</div></div>
     </div>
+    <h2>Pips captured by week</h2>
+    <div id="chartbox" style="background:#0f1830;border:1px solid #21304c;border-radius:14px;padding:14px 14px 8px;display:none"></div>
+    <div style="font-size:11px;color:#56627a;margin-top:6px;display:none" id="chartleg">bars = weekly pips captured &nbsp;·&nbsp; <span style="color:#7d9bff">line</span> = running total</div>
     <h2>By pair</h2>
-    <table><thead><tr><th>Pair</th><th>Calls</th><th>Hits</th><th>Hit rate</th></tr></thead><tbody id="pairs"></tbody></table>
+    <table><thead><tr><th>Pair</th><th>Calls</th><th>Hits</th><th>Hit rate</th><th>Pips</th></tr></thead><tbody id="pairs"></tbody></table>
     <h2>By week</h2>
-    <table><thead><tr><th>Snapshot</th><th>Calls</th><th>Hits</th><th>Hit rate</th></tr></thead><tbody id="hist"></tbody></table>
+    <table><thead><tr><th>Snapshot</th><th>Calls</th><th>Hits</th><th>Hit rate</th><th>Pips</th></tr></thead><tbody id="hist"></tbody></table>
   </div>
-  <div class="note"><b>Reading this honestly:</b> a week's direction match is a sanity check, not proof of a tradeable edge. Below ~8–10 weeks of data the percentages are noise. Anything consistently ≥55% over months is interesting; ~50% means the model isn't adding directional information. Rates are placeholder-affected until the policy-rate table is fixed.</div>
+  <div class="note"><b>Reading this honestly:</b> a week's direction match is a sanity check, not proof of a tradeable edge. Below ~8–10 weeks of data the percentages are noise. Anything consistently ≥55% over months is interesting; ~50% means the model isn't adding directional information. Rates are placeholder-affected until the policy-rate table is fixed. Pips are counted in the call's direction (bearish call + 80-pip fall = +80) with neutral calls excluded; pips captured ≠ tradeable profit — no spreads, entries or risk management are modelled.</div>
 </div>
 <script>
 var URL_ = "https://macrobias-collectors.onrender.com/accuracy.json";
@@ -57,12 +61,40 @@ fetch(URL_, {cache:"no-store"}).then(function(r){ return r.json(); }).then(funct
   rateEl.textContent = o.rate + "%"; rateEl.className = "v " + cls(o.rate);
   document.getElementById('calls').innerHTML = o.hits + " <small>hits</small> / " + o.calls;
   document.getElementById('weeks').textContent = d.weeksEvaluated;
+  var tp = o.j ? 0 : 0; var op = (typeof d.overall.pips==='number') ? d.overall.pips : 0;
+  var pe = document.getElementById('pips'); pe.textContent = (op>0?'+':'')+op; pe.className = 'v ' + (op>0?'good':op<0?'bad':'mid');
   var rows = Object.entries(d.perPair).sort(function(a,b){ return b[1].rate - a[1].rate; });
   document.getElementById('pairs').innerHTML = rows.map(function(e){
-    return "<tr><td class='mono'>"+e[0]+"</td><td class='mono'>"+e[1].calls+"</td><td class='mono'>"+e[1].hits+"</td><td class='mono "+cls(e[1].rate)+"'>"+e[1].rate+"%</td></tr>";
+    var p=e[1].pips||0; return "<tr><td class='mono'>"+e[0]+"</td><td class='mono'>"+e[1].calls+"</td><td class='mono'>"+e[1].hits+"</td><td class='mono "+cls(e[1].rate)+"'>"+e[1].rate+"%</td><td class='mono "+(p>0?'good':p<0?'bad':'mid')+"'>"+(p>0?'+':'')+p+"</td></tr>";
   }).join("");
+  
+  // --- pips chart ---
+  (function(){
+    var H = d.history.slice(); if(!H.length) return;
+    var W=560, HT=170, padL=8, padR=8, top=16, bot=26;
+    var cum=0, cums=H.map(function(h){ cum+=(h.pips||0); return cum; });
+    var maxAbs=Math.max(10, Math.max.apply(null, H.map(function(h){return Math.abs(h.pips||0);}).concat(cums.map(Math.abs))));
+    var plotH=HT-top-bot, zero=top+plotH/2, scale=(plotH/2)/maxAbs;
+    var n=H.length, slot=(W-padL-padR)/n, bw=Math.min(34, slot*0.55);
+    var svg='<svg viewBox="0 0 '+W+' '+HT+'" style="width:100%;display:block">';
+    svg+='<line x1="'+padL+'" y1="'+zero+'" x2="'+(W-padR)+'" y2="'+zero+'" stroke="#2a3550" stroke-width="1"/>';
+    var pts=[];
+    H.forEach(function(h,i){
+      var p=h.pips||0, x=padL+slot*i+slot/2, bh=Math.abs(p)*scale;
+      var y=p>=0? zero-bh : zero;
+      svg+='<rect x="'+(x-bw/2)+'" y="'+y+'" width="'+bw+'" height="'+Math.max(1,bh)+'" rx="3" fill="'+(p>0?'#3ec9b0':p<0?'#f4707a':'#33415e')+'"><title>'+new Date(h.date).toLocaleDateString()+': '+(p>0?'+':'')+p+' pips</title></rect>';
+      svg+='<text x="'+x+'" y="'+(p>=0? y-4 : zero+bh+11)+'" text-anchor="middle" fill="'+(p>0?'#3ec9b0':p<0?'#f4707a':'#8b97ab')+'" style="font-size:9.5px;font-family:ui-monospace,Menlo,monospace">'+(p>0?'+':'')+p+'</text>';
+      svg+='<text x="'+x+'" y="'+(HT-6)+'" text-anchor="middle" fill="#56627a" style="font-size:8.5px">'+new Date(h.date).toLocaleDateString(undefined,{day:'numeric',month:'short'})+'</text>';
+      pts.push(x+','+(zero-cums[i]*scale));
+    });
+    if(n>1) svg+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#7d9bff" stroke-width="1.8" stroke-linejoin="round"/>';
+    pts.forEach(function(pt){ var xy=pt.split(','); svg+='<circle cx="'+xy[0]+'" cy="'+xy[1]+'" r="2.4" fill="#7d9bff"/>'; });
+    svg+='</svg>';
+    var box=document.getElementById('chartbox'); box.innerHTML=svg; box.style.display='block';
+    document.getElementById('chartleg').style.display='block';
+  })();
   document.getElementById('hist').innerHTML = d.history.slice().reverse().map(function(h){
-    return "<tr><td class='mono'>"+new Date(h.date).toLocaleDateString()+"</td><td class='mono'>"+h.calls+"</td><td class='mono'>"+h.hits+"</td><td class='mono "+cls(h.rate)+"'>"+h.rate+"%</td></tr>";
+    var p=h.pips||0; return "<tr><td class='mono'>"+new Date(h.date).toLocaleDateString()+"</td><td class='mono'>"+h.calls+"</td><td class='mono'>"+h.hits+"</td><td class='mono "+cls(h.rate)+"'>"+h.rate+"%</td><td class='mono "+(p>0?'good':p<0?'bad':'mid')+"'>"+(p>0?'+':'')+p+"</td></tr>";
   }).join("");
 }).catch(function(){
   document.getElementById('state').textContent = "Couldn't reach the tracker feed — the Render service may be waking up. Refresh in ~30 seconds.";
