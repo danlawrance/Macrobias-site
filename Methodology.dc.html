@@ -40,6 +40,7 @@
       <div class="mt-navlinks" style="display:flex;align-items:center;gap:22px;margin-left:26px;font-size:13.5px;font-weight:500;color:#6f7c92;">
         <a href="Dashboard.dc.html" style="cursor:pointer;">Dashboard</a>
         <a href="News Hub.dc.html" style="cursor:pointer;">News</a>
+        <a href="Chart Check.dc.html" style="cursor:pointer;">Chart Check</a>
         <a href="Indicator.dc.html" style="cursor:pointer;">Indicator</a>
         <span style="color:#fff;">Methodology</span>
       </div>
@@ -60,7 +61,7 @@
 
     <!-- STEP STRIP -->
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:34px 0 46px;">
-      <div style="display:flex;align-items:center;gap:9px;background:#111c2e;border:1px solid #1c2840;border-radius:11px;padding:11px 16px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#7d9bff;">01</span><span style="font-size:13.5px;font-weight:600;color:#dbe1eb;">Read six fundamental drivers</span></div>
+      <div style="display:flex;align-items:center;gap:9px;background:#111c2e;border:1px solid #1c2840;border-radius:11px;padding:11px 16px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#7d9bff;">01</span><span style="font-size:13.5px;font-weight:600;color:#dbe1eb;">Read seven fundamental drivers</span></div>
       <span style="color:#3a475e;">→</span>
       <div style="display:flex;align-items:center;gap:9px;background:#111c2e;border:1px solid #1c2840;border-radius:11px;padding:11px 16px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#7d9bff;">02</span><span style="font-size:13.5px;font-weight:600;color:#dbe1eb;">Score base vs. quote</span></div>
       <span style="color:#3a475e;">→</span>
@@ -69,7 +70,7 @@
 
     <!-- SECTION 1: DRIVERS -->
     <div style="margin-bottom:22px;">
-      <h2 style="margin:0 0 8px;font-size:24px;font-weight:800;letter-spacing:-0.02em;color:#fff;">The six drivers</h2>
+      <h2 style="margin:0 0 8px;font-size:24px;font-weight:800;letter-spacing:-0.02em;color:#fff;">The seven drivers</h2>
       <p style="margin:0 0 22px;font-size:15.5px;line-height:1.55;color:#9aa7bd;max-width:680px;">Each currency is profiled across the factors that actually move exchange rates. For any pair, we compare the base currency against the quote on every one.</p>
     </div>
     <div class="mt-drivers" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:50px;">
@@ -97,6 +98,10 @@
         <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;"><div style="width:34px;height:34px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;font-size:15px;">◐</div><div style="font-weight:700;font-size:16px;color:#fff;">Risk sentiment</div></div>
         <p style="margin:0;font-size:13.5px;line-height:1.55;color:#8b97ab;">The market's risk-on / risk-off mood, which lifts pro-cyclical currencies (AUD, NZD) or havens (JPY, CHF, USD) accordingly.</p>
       </div>
+      <div style="background:#111c2e;border:1px solid #1c2840;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;"><div style="width:34px;height:34px;border-radius:9px;background:#1b2942;display:flex;align-items:center;justify-content:center;color:#9fb0e8;font-weight:800;font-size:15px;">◆</div><div style="font-weight:700;font-size:16px;color:#fff;">News flow (48h)</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.55;color:#8b97ab;">Every headline in our feed is AI-tagged with the currency it moves, the direction, and its impact. Each currency gets a rolling 48-hour score — high-impact stories count most, and everything decays as it ages — so a red-folder release starts tilting the bias within the hour, without letting headlines outvote the slower fundamentals.</p>
+      </div>
     </div>
 
     <!-- SECTION 2: HOW THEY COMBINE -->
@@ -106,10 +111,11 @@
       <div style="display:flex;flex-direction:column;gap:11px;">
         <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;">Highest weight</span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:96%;background:linear-gradient(90deg,#3554c8,#4d70e6);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Interest rates &amp; policy stance</div></div></div>
         <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:84%;background:linear-gradient(90deg,#34509c,#4566c8);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Central-bank trajectory</div></div></div>
-        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:84%;background:linear-gradient(90deg,#34509c,#4566c8);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Data momentum</div></div></div>
-        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:72%;background:linear-gradient(90deg,#2e4682,#3d5cae);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Bond-yield spreads</div></div></div>
-        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:60%;background:linear-gradient(90deg,#28386a,#35509c);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Risk sentiment</div></div></div>
-        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;">Lowest weight</span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:52%;background:linear-gradient(90deg,#243260,#304a8e);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Institutional positioning</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:76%;background:linear-gradient(90deg,#34509c,#4566c8);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Data momentum</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:76%;background:linear-gradient(90deg,#2e4682,#3d5cae);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Bond-yield spreads</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:62%;background:linear-gradient(90deg,#28386a,#35509c);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Risk sentiment</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;"></span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:54%;background:linear-gradient(90deg,#243260,#304a8e);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">Institutional positioning</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span style="font-size:12px;color:#7e8aa0;width:88px;flex:none;">Lowest weight</span><div style="flex:1;height:34px;background:#0c1626;border:1px solid #1c2840;border-radius:9px;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;width:54%;background:linear-gradient(90deg,#243260,#304a8e);border-radius:8px;display:flex;align-items:center;padding-left:14px;font-size:13px;font-weight:700;color:#fff;">News flow (48h)</div></div></div>
       </div>
       <p style="margin:22px 0 0;font-size:13.5px;line-height:1.55;color:#7e8aa0;">No single factor can dominate — each driver's influence is capped before weighting, so one extreme reading can't hijack the whole score. The weighted contributions are summed: a net positive favours the <b style="color:#cdd6e4;">base</b> currency, negative favours the <b style="color:#cdd6e4;">quote</b>.</p>
     </div>

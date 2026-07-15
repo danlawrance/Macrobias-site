@@ -32,11 +32,12 @@
     <div style="display:flex;align-items:center;gap:13px;">
       <a href="Polaris Landing.dc.html" style="display:flex;align-items:center;gap:11px;">
         <div style="width:30px;height:30px;background:#3d63dd;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 14px -3px rgba(61,99,221,0.5);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 12 L13 14 L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><circle cx="20" cy="6" r="2.6" fill="#fff"></circle></svg></div>
-        <span style="font-weight:800;font-size:18px;letter-spacing:-0.02em;color:#fff;">Meridian</span>
+        <span style="font-weight:800;font-size:18px;letter-spacing:-0.02em;color:#fff;">Macrobias</span>
       </a>
       <div class="le-navlinks" style="display:flex;align-items:center;gap:22px;margin-left:26px;font-size:13.5px;font-weight:500;color:#6f7c92;">
         <a href="Dashboard.dc.html" style="cursor:pointer;">Dashboard</a>
         <a href="News Hub.dc.html" style="cursor:pointer;">News</a>
+        <a href="Chart Check.dc.html" style="cursor:pointer;">Chart Check</a>
         <a href="Pricing.dc.html" style="cursor:pointer;">Pricing</a>
       </div>
     </div>
@@ -65,7 +66,7 @@
             <p style="margin:0;font-size:14px;line-height:1.65;color:#9aa7bd;text-wrap:pretty;">{{ s.p }}</p>
           </div>
         </sc-for>
-        <div style="margin-top:28px;padding-top:20px;border-top:1px solid #1c2840;font-size:12.5px;color:#56627a;line-height:1.6;">Questions about this document? Contact support@meridian.app. This page is a starting template and does not constitute legal advice.</div>
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid #1c2840;font-size:12.5px;color:#56627a;line-height:1.6;">Questions about this document? Contact support@macrobias.com. This page is a starting template and does not constitute legal advice.</div>
       </div>
     </div>
   </div>
@@ -80,12 +81,12 @@ class Component extends DCLogic {
 
     const content = {
       terms: { title: 'Terms of Service', sections: [
-        { key:'t1', h:'1. Acceptance of terms', p:'By creating an account or using Meridian ("the Service"), you agree to these Terms. If you do not agree, do not use the Service. We may update these Terms from time to time; continued use after changes constitutes acceptance.' },
-        { key:'t2', h:'2. What Meridian provides', p:'Meridian provides fundamental analysis, bias scores, news aggregation and related tools for foreign-exchange markets. The Service is informational only. It is not a broker, does not execute trades, and does not hold client funds.' },
+        { key:'t1', h:'1. Acceptance of terms', p:'By creating an account or using Macrobias ("the Service"), you agree to these Terms. If you do not agree, do not use the Service. We may update these Terms from time to time; continued use after changes constitutes acceptance.' },
+        { key:'t2', h:'2. What Macrobias provides', p:'Macrobias provides fundamental analysis, bias scores, news aggregation and related tools for foreign-exchange markets. The Service is informational only. It is not a broker, does not execute trades, and does not hold client funds.' },
         { key:'t3', h:'3. Not financial advice', p:'Nothing in the Service is financial, investment, legal or tax advice, nor a recommendation or solicitation to buy or sell any instrument. You are solely responsible for your own trading decisions and their outcomes. See the Risk Disclaimer.' },
         { key:'t4', h:'4. Accounts & subscriptions', p:'You are responsible for safeguarding your account credentials and for all activity under your account. Paid subscriptions renew automatically until cancelled. You may cancel at any time; access continues until the end of the current billing period. Fees already paid are non-refundable except where required by law.' },
         { key:'t5', h:'5. Acceptable use', p:'You may not resell, scrape, redistribute, or reverse-engineer the Service or its data, nor use it to build a competing product. We may suspend accounts that abuse the Service, attempt to disrupt it, or breach these Terms.' },
-        { key:'t6', h:'6. Limitation of liability', p:'The Service is provided "as is" without warranties of any kind. To the maximum extent permitted by law, Meridian is not liable for any trading losses or for any indirect, incidental or consequential damages arising from your use of the Service. Our total liability is limited to the fees you paid in the prior 12 months.' },
+        { key:'t6', h:'6. Limitation of liability', p:'The Service is provided "as is" without warranties of any kind. To the maximum extent permitted by law, Macrobias is not liable for any trading losses or for any indirect, incidental or consequential damages arising from your use of the Service. Our total liability is limited to the fees you paid in the prior 12 months.' },
         { key:'t7', h:'7. Governing law', p:'These Terms are governed by the laws of England and Wales, and disputes are subject to the exclusive jurisdiction of its courts.' }
       ]},
       privacy: { title: 'Privacy Policy', sections: [
@@ -95,14 +96,14 @@ class Component extends DCLogic {
         { key:'p4', h:'4. Sharing & processors', p:'We share data only with processors that help us run the Service (e.g. hosting, payments, email delivery), under contracts that require them to protect it. We may disclose data where required by law.' },
         { key:'p5', h:'5. Your rights', p:'Subject to applicable law (including UK GDPR), you may request access to, correction of, or deletion of your personal data, and may object to certain processing. Contact us to exercise these rights.' },
         { key:'p6', h:'6. Data retention & security', p:'We keep personal data only as long as needed to provide the Service and meet legal obligations, and we use reasonable technical and organisational measures to protect it. No system is perfectly secure.' },
-        { key:'p7', h:'7. Contact', p:'For privacy questions or requests, contact privacy@meridian.app.' }
+        { key:'p7', h:'7. Contact', p:'For privacy questions or requests, contact privacy@macrobias.com.' }
       ]},
       risk: { title: 'Risk Disclaimer', sections: [
         { key:'r1', h:'Trading carries significant risk', p:'Trading foreign exchange and other leveraged instruments carries a high level of risk and may not be suitable for all investors. You could lose some or all of your capital. Never trade with money you cannot afford to lose.' },
-        { key:'r2', h:'Meridian is an analytical aid, not advice', p:'Meridian bias scores, news tags, indicators and related content are informational tools that summarise fundamental conditions. They are not financial advice, not a recommendation, and not a signal to buy or sell. They should be one input among many in your own analysis.' },
+        { key:'r2', h:'Macrobias is an analytical aid, not advice', p:'Macrobias bias scores, news tags, indicators and related content are informational tools that summarise fundamental conditions. They are not financial advice, not a recommendation, and not a signal to buy or sell. They should be one input among many in your own analysis.' },
         { key:'r3', h:'No guarantee of accuracy or outcomes', p:'Fundamental data and bias scores may be delayed, incomplete or incorrect, and markets can move sharply against even a strong fundamental bias — particularly around high-impact news. Past performance and historical bias are not indicative of future results.' },
-        { key:'r4', h:'You are responsible for your decisions', p:'Any action you take based on information from Meridian is at your own risk and discretion. We are not liable for any losses arising from your reliance on the Service. Consider seeking advice from an independent, licensed financial adviser.' },
-        { key:'r5', h:'Regulatory status', p:'Meridian is a research and information service. It is not a regulated broker, investment manager or financial adviser, and does not provide personalised investment recommendations.' }
+        { key:'r4', h:'You are responsible for your decisions', p:'Any action you take based on information from Macrobias is at your own risk and discretion. We are not liable for any losses arising from your reliance on the Service. Consider seeking advice from an independent, licensed financial adviser.' },
+        { key:'r5', h:'Regulatory status', p:'Macrobias is a research and information service. It is not a regulated broker, investment manager or financial adviser, and does not provide personalised investment recommendations.' }
       ]}
     };
     const c = content[tab];
